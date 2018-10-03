@@ -1,0 +1,37 @@
+<%- include ./header.ejs %>
+
+<h1 class="text-center">Edit: <%= foundGame.gameName %></h1>
+<form class="col-lg-6 mx-auto" action="/games/<%=foundGame.gameName%>?_method=PUT" method="POST">
+    <div class="form-group">
+            <input type="text" name = "gameName" value= "<%= foundGame.gameName%>" placeholder = "game name" class="form-control" required></div>
+    <div class="form-group">        
+            <input type="text" name = "image" value="<%=foundGame.image%>" placeholder = "image url" class="form-control" required></div>
+    <div class="form-group">       
+            <input type="number"  step="0.10" value="<%=foundGame.price%>" name = "price" placeholder = "price" class="form-control" required></div>
+    <div class="form-group">        
+                    <select name="category" class="form-control" required>
+                            <option selected><%=foundGame.category%></option>
+                            <option value="ps4">PS4</option>
+                            <option value="xbox-one">XBOX ONE</option>
+                            <option value="switch">SWITCH</option>
+                    </select></div> 
+    <div class="form-group">        
+            <select name="genre"  class="form-control" required>
+                    <option selected><%=foundGame.genre%></option>
+                    <option value="role-playing">Role Playing</option>
+                    <option value="adventure">Adventure</option>
+                    <option value="action">Action</option>
+                    <option value="sports">Sports</option>
+                    <option value="fps">FPS</option>
+            </select></div>                 
+          
+    <div class="form-group" >
+                        Release date: <input type="date" name="releaseDate" value="<%= moment(foundGame.releaseDate).format("YYYY-MM-DD")%>" class="form-control"></div> 
+                     
+    <div class="form-group"> 
+        <textarea rows="10" cols="70" type="textaera" name = "description"   placeholder = "game description" class="form-control"><%-foundGame.description%></textarea></div> 
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+<%- include ./footer.ejs %>

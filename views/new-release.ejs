@@ -1,0 +1,19 @@
+<%- include ./header.ejs %>
+<h2>Newly released games:</h2>
+<p class="text-muted">note: showing games released within 30 days. </p>
+<div style="display:flex; flex-wrap:wrap; ">
+        <% newRelease.forEach(function(item){ %>
+            <div class="card m-2 text-center"; style="width:330px">
+                <div style="width:174px;height:174px; margin:auto;"><img class="card-img-top w-100 pt-2" src="<%= item.image %>" alt=""></div>
+                <div class="card-body">
+                    <h4 class="card-title"><%= item.gameName %></h4>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= item.category %></h6>
+                    <h3>$ <%= item.price %></h3>
+                    <p>Release Date: <%= moment(item.releaseDate).format("DD-MMM-YYYY"); %></p>
+                    <a href="#" class="btn btn-primary">More info</a>
+                </div>
+            </div>
+            
+            <% })%>
+        </div>   
+<%- include ./footer.ejs %>

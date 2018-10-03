@@ -1,0 +1,69 @@
+<%- include ./header.ejs %>
+
+<h1>Cart</h1>
+<div class="cartPageContent">
+   <table class="cartPageItemList">
+       <tr>
+           <td><h3>Name</h3></td>
+           <td><h3 style="padding-left:20px;">Price</h3></td>
+           <td><h3 style="padding-left:20px;" >Qty</h3></td>
+       </tr>
+    </table>
+
+    <!-- <button  class="btn btn-success" id="updateCart">Update Cart</button> -->
+<hr>
+<h3>Subtotal: <span class="totalQty"></span> item(s) , $ <span class="cartPageTotalAmount"></span></h3>
+
+
+<hr>
+<div id="paypal-button-container"></div>
+<hr>
+<h3 style="color:orange">This is a Demo website, please DO NOT pay.</h3>
+</div>
+
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+
+        env: 'sandbox', // sandbox | production
+
+        // PayPal Client IDs - replace with your own
+        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+        client: {
+            sandbox:    '<insert sandbox client id>',
+            production: '<insert production client id>'
+        },
+
+        // Show the buyer a 'Pay Now' button in the checkout flow
+        commit: true,
+
+        // payment() is called when the button is clicked
+        payment: function(data, actions) {
+
+            // Make a call to the REST api to create the payment
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: Number(document.querySelector('.cartPageTotalAmount').innerText), currency: 'AUD' }
+                        }
+                    ]
+                }
+            });
+        },
+
+        // onAuthorize() is called when the buyer approves the payment
+        onAuthorize: function(data, actions) {
+
+            // Make a call to the REST api to execute the payment
+            return actions.payment.execute().then(function() {
+                window.alert('Payment Complete!');
+            });
+        }
+
+    }, '#paypal-button-container');
+
+</script>
+
+<%- include ./footer.ejs %>
+

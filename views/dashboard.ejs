@@ -1,0 +1,17 @@
+<%- include ./header.ejs %>
+
+<div id="comments" class="row p-3">
+   
+        <div class="col-sm"> 
+        <h3>Hi, <%= currentUser.username %>  </h3>
+        <hr>
+        <h3>Your Past Comments:</h3>
+        <% foundComment.forEach(function(item){ %>
+        <p>Comment for : <a href="/games/<%= item.onGame %>">《 <%= item.onGame %>》</a></p> 
+         <p class="d-inline"> <img style="width:50px" src="<%= item.image %>" alt=""> <%= item.content %> <span class="text-muted float-right"><%= moment(item.createdAt).fromNow(); %></span></p> 
+         <p><form class="d-inline" action="/games/<%= item.onGame %>/comment/<%=item._id%>?_method=DELETE" method="POST"><button type="submit" class="btn btn-outline-secondary btn-sm">Delete</button></form></p>
+         <hr>
+        <% })%>
+      </div>
+      </div>
+<%- include ./footer.ejs %>

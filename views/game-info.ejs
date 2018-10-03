@@ -1,0 +1,74 @@
+<%- include ./header.ejs %>
+
+            <div class="container">
+
+                    <div class="row mt-5 border rounded-bottom p-3">
+                      <div class="col-sm text-center">
+                            <img src="<%= foundGame.image %>" alt="">
+                      </div>
+                      <div class="col-sm text-left">                               
+                        <h1 class="gameName"> <%= foundGame.gameName %></h1>
+                        <p> platform - <span class="text-secondary text-uppercase"><%= foundGame.category %></span></p>
+                        <p> Genre -  <span class="text-secondary text-capitalize"><%= foundGame.genre %></span></p>
+                        <p> Release Date - <span class="text-secondary"><%= moment(foundGame.releaseDate).format("DD-MMM-YYYY"); %></span> </p>
+                        <h3> Price -  $ <span class="price"><%= foundGame.price %></span></h3>
+                        <div class="btn btn-primary"><a href="/games/<%= foundGame.gameName %>/edit" style="color:white;">Edit</a></div> 
+                        <form class="d-inline" action="/games/<%= foundGame.gameName %>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger">Delete</button></form>
+                        <br>
+                        <br>
+                        <input id="quantity" type="number" value="1" step="1" min="0" max="10">
+                        <a href="/games/<%= foundGame.gameName %>" class="btn btn-success addToCartBtn" id="addToCart">Add to Cart</a>
+                        <div class="addToCartInfo"></div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-4">
+                      <div class="col-12">
+                      <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link commentsTab" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Comments</a>
+                        </li>
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row border rounded-bottom p-3 mb-4" style="margin-top:-1px;">
+                                <div class="col-sm-text-center">  
+                               <p><%-foundGame.description%></p>
+                                </div>
+    
+                        </div>
+                      </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div id="comments" class="row border rounded-bottom p-3" style="margin-top:-1px">
+                                <div class="col-sm"> 
+                                <h3>Comments: <span><div class="btn btn-primary"><a href="/games/<%= foundGame.gameName %>/comment/add" style="color:white;">Add</a></div> </span> </h3>
+                                <% foundGame.comments.forEach(function(item){ %>
+                                 <p><%= item.by.username %> - <span class="text-muted"><%= moment(item.createdAt).fromNow(); %></span></p> 
+                                 <p class="d-inline commentContent"><%= item.content %><form class="d-inline float-right" action="/games/<%= foundGame.gameName %>/comment/<%=item._id%>?_method=DELETE" method="POST"><button type="submit" class="btn btn-danger">Delete</button></form></p> 
+                                 <hr>
+                                <% })%>
+                              </div>
+                              </div>
+                        </div>
+                        
+                      </div>
+                    </div> 
+                  </div>
+                    
+                    
+
+                 <script>
+    
+                  document.querySelector('.commentsTab').innerText = 'Comments' + '( ' + document.querySelectorAll('.commentContent').length + ' )'
+                 
+                 </script>
+
+                    
+                  
+            </div>      
+
+<%- include ./footer.ejs %>
+

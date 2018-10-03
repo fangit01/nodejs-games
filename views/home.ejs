@@ -1,0 +1,59 @@
+<%- include ./header.ejs %>
+<%- include ./slider.ejs %>
+
+<div class="btn-group">
+    <button type="button" class="btn btn-outline-primary dropdown-toggle m-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Sort By...
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="?sortby=highprice">Pirce (high to low)</a>
+      <a class="dropdown-item" href="?sortby=lowprice">Pirce (low to high)</a>
+      <a class="dropdown-item" href="?sortby=releasedate">Release date</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="/?sortby=default">Default (Date added)</a>
+    </div>
+  </div>
+
+
+
+<div style="flex-wrap:wrap;" class="d-inline-flex justify-content-center">
+<% foundGames.forEach(function(item){ %>
+    <div class="card m-2 text-center"; style="width:330px">
+        <div style="width:174px;height:174px; margin:auto;"><a href="/games/<%= item.gameName %>"><img class="card-img-top w-100 pt-2" src="<%= item.image %>" alt=""></a></div>
+        <div class="card-body">
+            <h4 class="card-title"><%= item.gameName %></h4>
+            <h6 class="card-subtitle mb-2 text-muted text-uppercase"><%= item.category %></h6>
+            <h3>$ <span class="price"> <%= item.price %></span></h3>
+            <p class="text-secondary">Release Date: <%= moment(item.releaseDate).format("DD-MMM-YYYY"); %></p>
+            <a href="/games/<%= item.gameName %>" class="btn btn-primary">More info</a>
+            <button class="btn btn-success addToCartBtns">Add to cart</button>
+            <div class="addToCartInfo"></div>
+            
+            
+        </div>
+    </div>
+    
+    <% })%>
+</div>   
+
+<nav class = "pagination justify-content-center">
+<ul class="pagination">
+        <% if ( Number(page) == 2) { %>
+            <li class="page-item"><a class="page-link" href="/?sortby=<%=sortQuery%>">Previous</a></li>
+        <% } %>
+        <% if ( Number(page) > 2) { %>
+            <li class="page-item"><a class="page-link" href="/?page=<%=Number(page)-1%>&sortby=<%=sortQuery%>">Previous</a></li>
+        <% } %>
+        <li class="page-item"><a class="page-link" href="/?sortby=<%=sortQuery%>">1</a></li>
+        <% for (i = 1; i < pages ; i++) { %>     
+        <li class="page-item"><a class="page-link" href="/?page=<%= i+1 %>&sortby=<%=sortQuery%>"><%=i+1%></a></li>
+        <% } %> 
+
+        <% if ( Number(page) < Number(pages) ) { %>
+        <li class="page-item"><a class="page-link" href="/?page=<%=Number(page)+1%>&sortby=<%=sortQuery%>">Next</a></li>
+        <% } %>
+      </ul>
+</nav>   
+
+
+<%- include ./footer.ejs %>
